@@ -13,12 +13,12 @@ function adBlock() {
 		# Configure adblock rules based on the domain names of $domainNames file.
 		echo "Filling ip file don't close (this may take a while)"
 		while read -r line; do
-			echo $line
 			ip4block=$(host -t A $line | grep address | awk '{print $4}') #we want to fetch only ip4 address
 			if [ -z "$ip4block" ]; then                                   #checking if ip4 we fetched is empty
 				printf "ip not found for this domain\n"
 			else
 				for ip in $ip4block; do
+					printf "ip found successful\n"
 					echo "$ip" >>$IPAddresses
 				done
 			fi
