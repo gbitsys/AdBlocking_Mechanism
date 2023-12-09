@@ -3,6 +3,7 @@
 domainNames="domainNames.txt"
 IPAddresses="IPAddresses.txt"
 adblockRules="adblockRules"
+adblockRulesIPV6="adblockRulesIPV6"
 
 function adBlock() {
 	if [ "$EUID" -ne 0 ]; then      #Cheks if we are root users
@@ -13,14 +14,24 @@ function adBlock() {
 		# Configure adblock rules based on the domain names of $domainNames file.
 		echo "Filling ip file don't close (this may take a while)"
 		while read -r line; do
-			ip4block=$(host -t A $line | grep address | awk '{print $4}') #we want to fetch only ip4 address
-			if [ -z "$ip4block" ]; then                                   #checking if ip4 we fetched is empty
-				printf "ip not found for this domain\n"                      #empty ip
+			ip4block=$(host -t A $line | grep address | awk '{print $4}')
+			ip6block=$(host $line | grep "IPv6" | awk '{print $5}')
+			if [ -z "$ip4block" ]; then                           #checking if ip4 we fetched is empty
+				printf "ipv4 not found for this domain\n" >/dev/null #empty ip
 			else
 				for ip in $ip4block; do
-					printf "ip found successful\n"
 					echo "$ip" >>$IPAddresses #ip exists
+					#file format is ip line by line
 					iptables -A INPUT -s $ip -j REJECT
+				done
+			fi
+
+			if [ -z "$ip6block" ]; then
+				printf "ipv6 not found for this domain\n" >/dev/null #empty ip
+			else
+				for ip6 in $ip6block; do
+					echo "$ip6" >>$IPAddresses
+					ip6tables -A INPUT -s $ip6 -j REJECT
 				done
 			fi
 		done <"$domainNames"
@@ -35,21 +46,25 @@ function adBlock() {
 	elif [ "$1" = "-save" ]; then
 		# Save rules to $adblockRules file.
 		iptables-save >$adblockRules
+		ip6tables-save >$adblockRulesIPV6
 		true
 
 	elif [ "$1" = "-load" ]; then
 		# Load rules from $adblockRules file.
 		iptables-restore <$adblockRules
+		ip6tables-restore <$adblockRulesIPV6
 		true
 
 	elif [ "$1" = "-reset" ]; then
 		# Reset rules to default settings (i.e. accept all).
 		iptables -F
+		ip6tables -F
 		true
 
 	elif [ "$1" = "-list" ]; then
 		# List current rules.
-		iptables -L
+		iptables -L -n | more #we use 'more' command for better output printing
+		ip6tables -L -n | more
 		true
 
 	elif [ "$1" = "-help" ]; then
