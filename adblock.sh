@@ -15,14 +15,16 @@ function adBlock() {
 		while read -r line; do
 			ip4block=$(host -t A $line | grep address | awk '{print $4}') #we want to fetch only ip4 address
 			if [ -z "$ip4block" ]; then                                   #checking if ip4 we fetched is empty
-				printf "ip not found for this domain\n"
+				printf "ip not found for this domain\n"                      #empty ip
 			else
 				for ip in $ip4block; do
 					printf "ip found successful\n"
-					echo "$ip" >>$IPAddresses
+					echo "$ip" >>$IPAddresses #ip exists
+					iptables -A INPUT -s $ip -j REJECT
 				done
 			fi
 		done <"$domainNames"
+
 		true
 
 	elif [ "$1" = "-ips" ]; then
