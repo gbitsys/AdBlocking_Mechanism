@@ -7,6 +7,9 @@
 chmod +x adblock.sh
 sudo bash adblock.sh -help #or be root user
 ```
+You have to create also a file named domainNames.txt 
+or IPAddresses.txt or both. 
+
 ### Available options: 
 #### 1. -domains
 ```
