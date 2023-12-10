@@ -19,7 +19,7 @@ This file (IPAddresses.txt) is used to create your rules.
 This program uses host command to resolve the ip address (or addresses) for a specific domain name.  
 Works for both ipv4 and ipv6 addresses.  
 Using this command you may wait for a while because resolving ip for domain names takes some time  
-depending on network connection or the existance of domain name.  
+depending on network connection or the existance of domain name. (DNS queries take time).  
 
 ### 2. -ips
 ```
@@ -60,6 +60,9 @@ sudo bash adblock.sh -reset
 Reset rules to default settings (i.e. accept all).  
 
 ### Notes
-When visiting sites that are blocked 
+When visiting sites that are blocked we encounter time out error connection.   
+Because our domain names are limitited we will encounter some ad websites,  
+so we can add the name of website to the list to prevent connection in the future.  
+
 
 
