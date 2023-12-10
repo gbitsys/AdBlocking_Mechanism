@@ -41,13 +41,12 @@ function adBlock() {
 
 	elif [ "$1" = "-ips" ]; then
 		# Configure adblock rules based on the IP addresses of $IPAddresses file.
+		echo "This may take a while (Don't close)"
 		while read -r line; do
 			ipv4=$(echo "$line" | grep -E -o '((25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.){3}(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)')
 			if [ -z $ipv4 ]; then
-				echo $line
 				ip6tables -A INPUT -s $line -j REJECT
 			else
-				echo $ipv4
 				iptables -A INPUT -s $ipv4 -j REJECT
 			fi
 		done <"$IPAddresses"
