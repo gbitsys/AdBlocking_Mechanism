@@ -64,7 +64,7 @@ Reset rules to default settings (i.e. accept all).
 
 ### Notes
 When visiting sites that are blocked we encounter time out error connection.   
-Because our domain names are limitited we will encounter some ad websites,  
+Because our domain names are limited we will encounter some ad websites,  
 so we can add the name of website to the list to prevent connection in the future.  
 
 
