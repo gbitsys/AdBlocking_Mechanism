@@ -42,3 +42,19 @@ sudo bash adblock.sh -load
 ```
 This command is used to load rules from files adblockRules and adblockRulesIPV6  
 
+### 5. -list 
+```
+
+sudo bash adblock.sh -list
+```
+
+List current rules.  
+(This may be tricky we use the 'more' command inside the script twice)  
+
+### 6. -reset
+```
+sudo bash adblock.sh -reset
+```
+Reset rules to default settings (i.e. accept all).  
+
+
