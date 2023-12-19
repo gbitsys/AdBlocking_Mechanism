@@ -11,7 +11,7 @@ You have to create also a file named domainNames.txt
 or IPAddresses.txt or both. 
 
 ### Available options: 
-#### 1. -domains
+### 1. -domains
 ```
 sudo bash adblock.sh -domains
 ```
