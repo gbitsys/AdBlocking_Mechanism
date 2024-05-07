@@ -1,7 +1,7 @@
 # AdBlocking_Mechanism
 ### Authors: 
-- Georgios Bitsis (2021030043) </p>
-- Athanasios Karakos (2021030011)
+- Georgios Bitsis  </p>
+- Athanasios Karakos 
 ### Setup:
 ```
 chmod +x adblock.sh
